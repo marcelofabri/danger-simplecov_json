@@ -2,6 +2,7 @@
 
 [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)](LICENSE.txt)
 [![Gem](https://img.shields.io/gem/v/danger-simplecov_json.svg?style=flat)](http://rubygems.org/gems/danger-simplecov_json)
+[![Build Status](https://travis-ci.org/marcelofabri/danger-simplecov_json.svg?branch=master)](https://travis-ci.org/marcelofabri/danger-simplecov_json)
 
 Report your Ruby app test suite code coverage in [Danger](https://github.com/danger/danger).
 
