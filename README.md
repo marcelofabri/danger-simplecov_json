@@ -39,13 +39,13 @@ gem 'danger-simplecov_json'
 Just add this line to your `Dangerfile`:
 
 ```ruby
-simplecov.report_coverage('coverage/coverage.json')
+simplecov.report 'coverage/coverage.json'
 ```
 
 You can also make the message not [sticky](http://danger.systems/reference.html):
 
 ```ruby
-simplecov.report_coverage('coverage/coverage.json', sticky: false)
+simplecov.report('coverage/coverage.json', sticky: false)
 ```
 
 ## License

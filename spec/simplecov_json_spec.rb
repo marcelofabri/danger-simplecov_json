@@ -19,13 +19,13 @@ module Danger
         monday_date = Date.parse('2016-07-11')
         allow(Date).to receive(:today).and_return monday_date
 
-        @simplecov.report_coverage('spec/fixtures/coverage.json')
+        @simplecov.report('spec/fixtures/coverage.json')
 
         expect(@dangerfile.status_report[:messages]).to eq(['Code coverage is now at 99.15% (1512/1525 lines)'])
       end
 
       it 'Fails if code coverage not found' do
-        @simplecov.report_coverage('spec/fixtures/missing_file.json')
+        @simplecov.report('spec/fixtures/missing_file.json')
 
         expect(@dangerfile.status_report[:errors]).to eq(['Code coverage data not found'])
       end

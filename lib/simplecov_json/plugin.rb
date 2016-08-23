@@ -18,7 +18,7 @@ module Danger
     # message in Danger.
     # @return  [void]
     #
-    def report_coverage(coverage_path, sticky: true)
+    def report(coverage_path, sticky: true)
       if File.exist? coverage_path
         coverage_json = JSON.parse(File.read(coverage_path), symbolize_names: true)
         metrics = coverage_json[:metrics]
