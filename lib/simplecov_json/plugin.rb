@@ -26,7 +26,8 @@ module Danger
         lines = metrics[:covered_lines]
         total_lines = metrics[:total_lines]
 
-        message("Code coverage is now at #{'%.02f' % percentage}% (#{lines}/#{total_lines} lines)", sticky: sticky)
+        formatted_percentage = format('%.02f', percentage)
+        message("Code coverage is now at #{formatted_percentage}% (#{lines}/#{total_lines} lines)", sticky: sticky)
       else
         fail('Code coverage data not found')
       end
