@@ -1,3 +1,3 @@
-module SimplecovJson
+module SimpleCovJson
   VERSION = "0.0.1".freeze
 end

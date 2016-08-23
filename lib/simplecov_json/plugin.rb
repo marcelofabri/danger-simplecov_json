@@ -1,33 +1,39 @@
 module Danger
-  # This is your plugin class. Any attributes or methods you expose here will
-  # be available from within your Dangerfile.
+  # Report your Ruby app test suite code coverage.
   #
-  # To be published on the Danger plugins site, you will need to have
-  # the public interface documented. Danger uses [YARD](http://yardoc.org/)
-  # for generating documentation from your plugin source, and you can verify
-  # by running `danger plugins lint` or `bundle exec rake spec`.
+  # You can use [simplecov](https://github.com/colszowka/simplecov) to
+  # gather code coverage data and a
+  # [json formatter](https://github.com/vicentllongo/simplecov-json) so
+  # this plugin can parse it.
   #
-  # You should replace these comments with a public description of your library.
+  # @example Report code coverage
   #
-  # @example Ensure people are well warned about merging on Mondays
+  #          simplecov.report_coverage('coverage/coverage.json')
   #
-  #          my_plugin.warn_on_mondays
+  # @see  marcelofabri/danger-simplecov_json
+  # @tags ruby, code-coverage, simplecov
   #
-  # @see  Marcelo Fabri/danger-simplecov_json
-  # @tags monday, weekends, time, rattata
-  #
-  class DangerSimplecovJson < Plugin
-
-    # An attribute that you can read/write from your Dangerfile
+  class DangerSimpleCovJson < Plugin
+    # A method to parse and report code coverage information as a
+    # message in Danger.
+    # @return  [void]
     #
-    # @return   [Array<String>]
-    attr_accessor :my_attribute
+    def report_coverage(coverage_path, sticky: true)
+      if File.exist? coverage_path
+        coverage_json = JSON.parse(File.read(coverage_path), symbolize_names: true)
+        metrics = coverage_json[:metrics]
+        percentage = metrics[:covered_percent]
+        lines = metrics[:covered_lines]
+        total_lines = metrics[:total_lines]
 
-    # A method that you can call from your Dangerfile
-    # @return   [Array<String>]
-    #
-    def warn_on_mondays
-      warn 'Trying to merge code on a Monday' if Date.today.wday == 1
+        message("Code coverage is now at #{'%.02f' % percentage}% (#{lines}/#{total_lines} lines)", sticky: sticky)
+      else
+        fail('Code coverage data not found')
+      end
+    end
+
+    def self.instance_name
+      'simplecov'
     end
   end
 end
