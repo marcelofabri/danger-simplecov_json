@@ -14,7 +14,7 @@ module Danger
   # @tags ruby, code-coverage, simplecov
   #
   class DangerSimpleCovJson < Plugin
-    # A method to parse and report code coverage information as a
+    # Parse a JSON code coverage file and report that information as a
     # message in Danger.
     # @return  [void]
     #
