@@ -8,7 +8,7 @@ module Danger
   #
   # @example Report code coverage
   #
-  #          simplecov.report_coverage('coverage/coverage.json')
+  #          simplecov.report('coverage/coverage.json')
   #
   # @see  marcelofabri/danger-simplecov_json
   # @tags ruby, code-coverage, simplecov
