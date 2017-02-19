@@ -34,7 +34,7 @@ module Danger
     end
 
     def individual_report(coverage_path, current_project_path)
-      if File.exit? coverage_path
+      if File.exist? coverage_path
         committed_files = (git.modified_files + git.added_files).map do |s|
           current_project_path + '/' + s
         end
