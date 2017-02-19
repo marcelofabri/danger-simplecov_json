@@ -33,6 +33,34 @@ module Danger
       end
     end
 
+    def individual_report(coverage_path, current_project_path)
+      if File.exit? coverage_path
+        committed_files = (git.modified_files + git.added_files).map do |s|
+          current_project_path + '/' + s
+        end
+        covered_files = JSON.parse(File.read(coverage_path), symbolize_names: true)[:files]
+                            .select { |f| committed_files.include?(f[:filename]) }
+
+        markdown individual_coverage_message(covered_files)
+      else
+        fail('Code coverage data not found')
+      end
+    end
+
+    def individual_coverage_message(covered_files)
+      require 'terminal-table'
+
+      message = "### Code Coverage\n\n"
+      table = Terminal::Table.new(
+        headings: %w(File Coverage),
+        style: { border_i: '|' },
+        rows: covered_files.map do |file|
+          [file[:filename], "#{format('%.02f', file[:covered_percent])}%"]
+        end
+      ).to_s
+      message + table.split("\n")[1..-2].join("\n")
+    end
+
     def self.instance_name
       'simplecov'
     end
