@@ -23,9 +23,10 @@ module Danger
         allow(@simplecov.git).to receive(:modified_files)
           .and_return(['another_ruby_file.rb'])
 
-
         @simplecov.individual_report('spec/fixtures/coverage.json', nil)
-        expect(@dangerfile.status_report[:markdowns][0].message).to eq("### Code Coverage\n\n| File                 | Coverage |\n|----------------------|----------|\n| another_ruby_file.rb | 20.00%   |")
+        expect(@dangerfile.status_report[:markdowns][0].message).to eq("### Code Coverage\n\n"\
+          "| File                 | Coverage |\n|----------------------|----------|\n"\
+          '| another_ruby_file.rb | 20.00%   |')
       end
 
       it 'Fails if code coverage not found' do
