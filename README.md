@@ -52,6 +52,14 @@ You can also make the message not [sticky](http://danger.systems/reference.html)
 simplecov.report('coverage/coverage.json', sticky: false)
 ```
 
+### Individual File coverage
+
+In addition, you can see coverage for the files you've added or modified in git:
+
+```ruby
+simplecov.individual_report('coverage/coverage.json', Dir.pwd)
+```
+
 ## License
 
 MIT

@@ -1,9 +1,10 @@
-{  
+{
    "timestamp":1471917899,
    "command_name":"RSpec",
-   "files":[  
+   "files":[
+     { "filename": "another_ruby_file.rb", "covered_percent": 20.0 }
    ],
-   "metrics":{  
+   "metrics":{
       "covered_percent":99.14754098360656,
       "covered_strength":31.564786885245905,
       "covered_lines":1512,

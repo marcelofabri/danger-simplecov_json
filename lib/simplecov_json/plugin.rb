@@ -9,6 +9,7 @@ module Danger
   # @example Report code coverage
   #
   #          simplecov.report('coverage/coverage.json')
+  #          simplecov.individual_report('coverage/coverage.json', Dir.pwd)
   #
   # @see  marcelofabri/danger-simplecov_json
   # @tags ruby, code-coverage, simplecov
@@ -31,6 +32,48 @@ module Danger
       else
         fail('Code coverage data not found')
       end
+    end
+
+    # Parse a JSON code coverage file and report on the files that you have
+    # added or modified in git
+    # @return [void]
+    #
+    def individual_report(coverage_path, current_project_path)
+      if File.exist? coverage_path
+        committed_files = git.modified_files + git.added_files
+
+        unless current_project_path.nil?
+          committed_files = committed_files.map do |s|
+            current_project_path + '/' + s
+          end
+        end
+
+        covered_files = JSON.parse(File.read(coverage_path), symbolize_names: true)[:files]
+                            .select { |f| committed_files.include?(f[:filename]) }
+
+        return if covered_files.nil? || covered_files.empty?
+        markdown individual_coverage_message(covered_files)
+      else
+        fail('Code coverage data not found')
+      end
+    end
+
+    # Builds the markdown table displaying coverage on individual files
+    # @param [Array] covered_files
+    # @return [String] Markdown table
+    #
+    def individual_coverage_message(covered_files)
+      require 'terminal-table'
+
+      message = "### Code Coverage\n\n"
+      table = Terminal::Table.new(
+        headings: %w(File Coverage),
+        style: { border_i: '|' },
+        rows: covered_files.map do |file|
+          [file[:filename], "#{format('%.02f', file[:covered_percent])}%"]
+        end
+      ).to_s
+      message + table.split("\n")[1..-2].join("\n")
     end
 
     def self.instance_name
