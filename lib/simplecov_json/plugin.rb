@@ -51,6 +51,10 @@ module Danger
         covered_files = JSON.parse(File.read(coverage_path), symbolize_names: true)[:files]
                             .select { |f| committed_files.include?(f[:filename]) }
 
+        unless current_project_path.nil?
+          covered_files.each { |f| f[:filename].sub!(%r{^#{current_project_path}/?}, '') }
+        end
+
         return if covered_files.nil? || covered_files.empty?
         markdown individual_coverage_message(covered_files)
       else
